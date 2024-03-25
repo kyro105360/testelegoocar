@@ -2,9 +2,11 @@
 
 import pygame
 import sys
+import keyboard, serial, time
 
 # Initialize Pygame
 pygame.init()
+car = serial.Serial("com3", 9600)
 
 # Set up the screen
 WIDTH, HEIGHT = 1500, 800
@@ -60,22 +62,22 @@ class Button:
 
 # Define actions for buttons
 def action1():
-    print("Moved up")
+    car.write(b'f')
 
-def action2():
-    print("Turned on/off")
+def stop():
+    car.write(b's')
 
 def action3():
-    print("Moved right")
+    car.write(b'r')
 
 def action4():
-    print("Moved left")
+    car.write(b'l')
 
 def action5():
-    print("Moved down")
+    car.write(b'b')
 
 def action6():
-    print("Emergency stop activated")
+    car.write(b'E')
 
 # Create buttons
 button_width, button_height = 200, 100
@@ -85,7 +87,7 @@ button_y = (HEIGHT - (button_height + button_spacing) * 2) / 2 - 100  # Center v
 upButton = Button(button_x, button_y, button_width*2, button_height*2, WHITE, "Up Button", "Better_buttons/button_image1.png",  action1)
 
 button_y += button_height + button_spacing + 25
-onOffButton = Button(button_x, button_y, button_width*2, button_height*2, WHITE, "On/off Button", "Better_buttons/button_image2.png", action2)
+onOffButton = Button(button_x, button_y, button_width*2, button_height*2, WHITE, "On/off Button", "Better_buttons/button_image2.png", action6)
 
 button_x += (WIDTH - button_width*2)/8 + 290
 rightButton = Button(button_x, button_y, button_width*2, button_height*2, WHITE, "Right Button", "Better_buttons/button_image3.png", action3)
@@ -115,6 +117,8 @@ while running:
                 for button in [upButton, onOffButton, rightButton, leftButton, downButton, emergencyStopButton]:
                     if button.rect.collidepoint(event.pos):
                         button.clicked()
+        else:
+            stop()
 
     # Clear the screen
     screen.fill(BLACK)
@@ -129,6 +133,7 @@ while running:
 
     # Update the display
     pygame.display.flip()
+    time.sleep(0.1)
 
 # Quit Pygame
 pygame.quit()
