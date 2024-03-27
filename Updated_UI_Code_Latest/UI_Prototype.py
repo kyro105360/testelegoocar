@@ -6,9 +6,9 @@ import keyboard, serial, time
 
 # Initialize Pygame
 pygame.init()
-car = serial.Serial("com3", 9600)
+car = serial.Serial("com6", 9600)
 
-# Set up the screen
+# Set up the screen 
 WIDTH, HEIGHT = 1500, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pygame GUI")
