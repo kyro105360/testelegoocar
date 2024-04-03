@@ -6,7 +6,7 @@ import keyboard, serial, time
 
 # Initialize Pygame
 pygame.init()
-car = serial.Serial("com6", 9600)
+# car = serial.Serial("com6", 9600)
 
 # Set up the screen 
 WIDTH, HEIGHT = 1500, 800
@@ -31,7 +31,7 @@ class Button:
         self.action = action
         self.images = []
         self.image_index = 0
-        self.clicked = False
+        self.pressed = False
         if image_paths:
             for path in image_paths:
                 image = pygame.image.load(path)
@@ -41,7 +41,7 @@ class Button:
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
         if self.images:
-            if self.clicked:
+            if self.pressed:
                 screen.blit(self.images[1], self.rect.topleft)
             else:
                 screen.blit(self.images[0], self.rect.topleft)
@@ -53,7 +53,6 @@ class Button:
     def clicked(self):
         if self.action:
             self.action()
-        self.clicked = not self.clicked
 
 class ButtonOnOff:
     def __init__(self, x, y, width, height, color, text, image_paths=None, action=None):
@@ -63,7 +62,7 @@ class ButtonOnOff:
         self.action = action
         self.images = []
         self.image_index = 0
-        self.clicked = False
+        self.pressed = False
         if image_paths:
             for path in image_paths:
                 image = pygame.image.load(path)
@@ -73,7 +72,7 @@ class ButtonOnOff:
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
         if self.images:
-            if self.clicked:
+            if self.pressed:
                 screen.blit(self.images[1], self.rect.topleft)
             else:
                 screen.blit(self.images[0], self.rect.topleft)
@@ -82,31 +81,37 @@ class ButtonOnOff:
             text_rect = text_surface.get_rect(center=self.rect.center)
             screen.blit(text_surface, text_rect)
 
-    def click(self):
+    def clicked(self):
         if self.action:
             self.action()
-        self.clicked = not self.clicked
+        self.pressed = not self.pressed
 
 
 # Define actions for buttons
 def action1():
-    car.write(b'f')
+    # car.write(b'f')
+    print("test1")
 
 def stop():
-    car.write(b's')
-
+    # car.write(b's')
+    print("test2")
+    
 def action3():
-    car.write(b'r')
+    # car.write(b'r')
+    print("test3")
 
 def action4():
-    car.write(b'l')
+    # car.write(b'l')
+    print("test4")
 
 def action5():
-    car.write(b'b')
+    # car.write(b'b')
+    print("test5")
 
 def action6():
-    car.write(b'E')
-
+    # car.write(b'E')
+    print("test6")
+    
 # Create buttons
 button_width, button_height = 200, 100
 button_spacing = 100
@@ -142,14 +147,12 @@ while running:
             if event.button == 1:
                 for button in [upButton, onOffButton, rightButton, leftButton, downButton, emergencyStopButton]:
                     if button.rect.collidepoint(event.pos):
-                        button.clicked = not button.clicked
-                        # button.clicked()  # Call the button's action method
+                        button.pressed = True
+                        button.clicked()  # Call the button's action method
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 for button in [upButton, rightButton, leftButton, downButton, emergencyStopButton]:
-                    button.clicked = False
-                for ButtonOnOff in [onOffButton]:
-                    button.clicked = False
+                    button.pressed = False
 
         else:
             stop()
