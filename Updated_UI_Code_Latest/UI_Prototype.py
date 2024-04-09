@@ -6,7 +6,8 @@ import keyboard, serial, time
 
 # Initialize Pygame
 pygame.init()
-# car = serial.Serial("com6", 9600)
+port = input("Enter com port: ")
+car = serial.Serial(port, 9600)
 
 # Set up the screen 
 WIDTH, HEIGHT = 1500, 800
@@ -89,28 +90,22 @@ class ButtonOnOff:
 
 # Define actions for buttons
 def action1():
-    # car.write(b'f')
-    print("test1")
+    car.write(b'f')
 
 def stop():
-    # car.write(b's')
-    print("test2")
+    car.write(b's')
     
 def action3():
-    # car.write(b'r')
-    print("test3")
+    car.write(b'r')
 
 def action4():
-    # car.write(b'l')
-    print("test4")
+    car.write(b'l')
 
 def action5():
-    # car.write(b'b')
-    print("test5")
+    car.write(b'b')
 
 def action6():
-    # car.write(b'E')
-    print("test6")
+    car.write(b'E')
     
 # Create buttons
 button_width, button_height = 200, 100
@@ -148,7 +143,7 @@ while running:
                 for button in [upButton, onOffButton, rightButton, leftButton, downButton, emergencyStopButton]:
                     if button.rect.collidepoint(event.pos):
                         button.pressed = True
-                        button.clicked()  # Call the button's action method
+                        button.clicked()  call the button's action method
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 for button in [upButton, rightButton, leftButton, downButton, emergencyStopButton]:
